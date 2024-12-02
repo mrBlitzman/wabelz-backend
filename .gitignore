@@ -1,0 +1,14 @@
+# Node.js projelerinde tipik dosya ve klasörler:
+node_modules/
+.env
+
+# IDE ayar dosyaları:
+.vscode/
+.idea/
+
+# Log dosyaları:
+*.log
+
+# İşletim sistemi dosyaları:
+.DS_Store
+Thumbs.db
