@@ -15,7 +15,7 @@ export default async function orderDetails(products) {
             productsList.push({
                 productID: packageMatch.productID,
                 productType: "package",
-                invoiceTitle: packageMatch.invoiceTitle,
+                invoiceTitle: packageMatch.invoiceTitle || packageMatch.title,
                 totalPrice: {amount: productTotalPrice, currency: packageMatch.price[0]?.currency}
             });
         } else {
@@ -26,7 +26,7 @@ export default async function orderDetails(products) {
                 productsList.push({
                     productID: extraMatch.productID,
                     productType: "extra",
-                    invoiceTitle: extraMatch.invoiceTitle,
+                    invoiceTitle: extraMatch.invoiceTitle || extraMatch.title,
                     totalPrice: {amount: productTotalPrice, currency: extraMatch.price[0]?.currency}
                 });
             }
