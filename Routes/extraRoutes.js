@@ -9,7 +9,7 @@ router.get("/extras/:slug", async (req, res) => {
 
     const extras = await Extras.find();
 
-    const packageResponse = await axios.get(`http://localhost:3000/api/packages/${slug}`);
+    const packageResponse = await axios.get(`https://wabelzapi.fly.dev/api/packages/${slug}`);
     const packageData = packageResponse.data;
 
     // Paket özelliklerini kontrol ederek yalnızca pakette bulunmayan ekstraları döndür

@@ -10,7 +10,7 @@ import proceedOrder from './Controllers/proceedOrder.js';
 staticsMw(app);
 
 app.use(cors({
-  origin: 'http://localhost:5173'
+  origin: 'https://www.wabelz.com/'
 }));
 
 app.use("/api", extraRoutes);
