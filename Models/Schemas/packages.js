@@ -2,8 +2,10 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const packageSchema = new Schema({
+    productID: {type: Number, required: true, unique: true},
     title: { type: String, required: true },
-    slug: { type: String, required: true },
+    invoiceTitle: {type: String, required: false},
+    slug: { type: String, required: true, unique: true },
     tagline: { type: String, required: true },
     subtitle: { type: String, required: true },
     price: [
