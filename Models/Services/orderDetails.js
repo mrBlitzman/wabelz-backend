@@ -1,37 +1,23 @@
-import Package from '../Schemas/packages.js';
-import Extra from '../Schemas/extras.js';
+import Pricings from "../Schemas/pricings.js";
 
 export default async function orderDetails(products) {
-    const productsList = [];
+    const orderList = [];
     let didMatch = false;
-    
-    for (const product of products) {
-        let productTotalPrice;
 
-        const packageMatch = await Package.findOne({ productID: product.id });
-        if (packageMatch) {
+    for (const product of products) {
+
+        const productMatch = await Pricings.findOne({ id: product.id });
+        if (productMatch) {
             didMatch = true;
-            productTotalPrice = packageMatch.price[0]?.amount * product.quantity;
-            productsList.push({
-                productID: packageMatch.productID,
-                productType: "package",
-                invoiceTitle: packageMatch.invoiceTitle || packageMatch.title,
-                totalPrice: {amount: productTotalPrice, currency: packageMatch.price[0]?.currency}
+            orderList.push({
+                id: productMatch.id,
+                type: productMatch.type,
+                invoiceTitle: productMatch.invoiceTitle || productMatch.title,
+                price: productMatch.price,
+                quantity: product.quantity
             });
-        } else {
-            const extraMatch = await Extra.findOne({ productID: product.id });
-            if (extraMatch) {
-                didMatch = true;
-                productTotalPrice = extraMatch.price[0]?.amount * product.quantity;
-                productsList.push({
-                    productID: extraMatch.productID,
-                    productType: "extra",
-                    invoiceTitle: extraMatch.invoiceTitle || extraMatch.title,
-                    totalPrice: {amount: productTotalPrice, currency: extraMatch.price[0]?.currency}
-                });
-            }
         }
     }
-    
-    return didMatch ? productsList : { error: "No matching products found" };
+
+    return didMatch ? orderList : { error: "No matching products found" };
 }

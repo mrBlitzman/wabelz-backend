@@ -14,21 +14,10 @@ export default async function proceedOrder(req, res) {
             return res.status(400).json({ error: requestedOrderDetails.error });
         }
 
-        const orderTotal = (() => {
-            const currencies = requestedOrderDetails.map(item => item.totalPrice.currency);
-            
-            const isSameCurrency = currencies.every(currency => currency === currencies[0]);
-          
-            if (!isSameCurrency) {
-              throw new Error("Every item must have same currency!");
-            }
-          
-            return {
-              amount: requestedOrderDetails.reduce((total, item) => total + item.totalPrice.amount, 0),
-              currency: currencies[0]
-            };
-          })();
-          
+        const orderTotal = requestedOrderDetails.reduce((total, item) => {
+            return total + item.price * item.quantity;
+          }, 0);
+                 
         res.json({
             message: "Order processed successfully",
             orderDetails: requestedOrderDetails,

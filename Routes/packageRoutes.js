@@ -1,23 +1,32 @@
 import express from "express";
 const router = express.Router();
-import Package from "../Models/Schemas/packages.js";
+import Pricings from "../Models/Schemas/pricings.js";
 
+// Tüm paketleri al
 router.get("/packages", async (req, res) => {
-  try{
-    const allPackages = await Package.find();
+  try {
+    // Sadece `type: "package"` olan belgeleri getir
+    const allPackages = await Pricings.find({ type: "package" });
     res.json(allPackages);
   } catch (err) {
-    res.status(500).json({ definition: "Packages fetching error", message: err });
+    res.status(500).json({ definition: "Packages fetching error", message: err.message });
   }
-})
+});
 
+// Belirli bir paketi `slug` ile al
 router.get("/packages/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    const foundPackage =  await Package.findOne({ slug: slug });
+    // `type: "package"` ile eşleşen ve `slug` değerine uyan belgeyi bul
+    const foundPackage = await Pricings.findOne({ type: "package", slug: slug });
+    
+    if (!foundPackage) {
+      return res.status(404).json({ definition: "Package not found", message: "No package found with the given slug." });
+    }
+
     res.json(foundPackage);
   } catch (err) {
-    res.status(500).json({ definition: "Package fetching error", message: err });
+    res.status(500).json({ definition: "Package fetching error", message: err.message });
   }
 });
 

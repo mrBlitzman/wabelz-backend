@@ -1,14 +1,17 @@
 import express from "express";
-const router = express.Router();
-import Extras from "../Models/Schemas/extras.js";
 import axios from "axios";
+import Pricings from "../Models/Schemas/pricings.js";
+
+const router = express.Router();
 
 router.get("/extras/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
 
-    const extras = await Extras.find();
+    // Tüm `extra` türündeki belgeleri al
+    const extras = await Pricings.find({ type: "extra" });
 
+    // Paket verisini API'den al
     const packageResponse = await axios.get(`https://wabelzapi.fly.dev/api/packages/${slug}`);
     const packageData = packageResponse.data;
 
