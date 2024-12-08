@@ -8,19 +8,16 @@ router.get("/extras/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
 
-    // Tüm `extra` türündeki belgeleri al
     const extras = await Pricings.find({ type: "extra" });
     const extrasData = extras.map(({ id, type, title, price, featureKey }) => ({ id, type, title, price, featureKey }));
 
-    // Paket verisini API'den al
     const packageResponse = await axios.get(`https://wabelzapi.fly.dev/api/packages/${slug}`);
     const packageData = packageResponse.data;
 
-    // Paket özelliklerini kontrol ederek yalnızca pakette bulunmayan ekstraları döndür
     const filteredExtras = extrasData.filter(
       (extra) =>
-        !extra.featureKey || // featureKey boş ise her zaman dahil edilir
-        !packageData.features.some((feature) => feature.name === extra.featureKey) // Pakette mevcut değilse
+        !extra.featureKey ||
+        !packageData.features.some((feature) => feature.name === extra.featureKey)
     );
 
     res.json(filteredExtras);

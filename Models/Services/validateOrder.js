@@ -7,7 +7,7 @@ const validateOrder = async (formData, productData) => {
 
     const postData = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/api/proceedOrder", productData);
+            const response = await axios.post("https://wabelzapi.fly.dev/api/proceedOrder", productData);
             return response.data;
         } catch (error) {
             console.error("Error occurred:", error.message);
