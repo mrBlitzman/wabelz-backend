@@ -7,7 +7,7 @@ const validateOrder = async (formData, productData) => {
 
     const postData = async () => {
         try {
-            const response = await axios.post("https://wabelzapi.fly.dev/api/proceedOrder", productData);
+            const response = await axios.post("http://localhost:3000/api/proceedOrder", productData);
             return response.data;
         } catch (error) {
             console.error("Error occurred:", error.message);
@@ -93,7 +93,7 @@ const validateOrder = async (formData, productData) => {
     if (!industry.trim()) {
         errors.industry = "Industry is required.";
     } else {
-        const validIndustries = ['Engineering', 'Marketing', 'Sales', 'Human Resources', 'Design'];
+        const validIndustries = [ "Design", "Marketing", "Technology", "Finance", "Healthcare", "Education", "Real Estate", "Retail", "Manufacturing", "Construction", "Transportation", "Telecommunications", "Energy", "Entertainment", "Media", "Agriculture", "Hospitality", "Food & Beverage", "Nonprofit", "Legal", "Consulting", "Software Development", "Tourism", "Automotive", "Insurance", "Pharmaceuticals", "Aerospace", "Sports", "Mining", "Public Sector", "Fashion", "Music", "Publishing", "Gaming", "Charity", "Art & Culture", "Retail & E-commerce", "Business Services", "Events & Conferences", "Security" ];
         if (!validIndustries.includes(industry)) {
             errors.industry = "Invalid industry. Valid options are: Engineering, Marketing, Sales, Human Resour" +
                     "ces, Design.";
@@ -105,7 +105,7 @@ const validateOrder = async (formData, productData) => {
     if (!websiteType.trim()) {
         errors.websiteType = "Website type is required.";
     } else {
-        const validWebsiteTypes = ['E-commerce', 'Blog', 'Portfolio', 'Corporate', 'Landing'];
+        const validWebsiteTypes = [ 'E-commerce', 'Blog', 'Portfolio', 'Corporate', 'Landing', 'Business', 'Personal', 'Educational', 'Nonprofit', 'Community', 'News', 'Social', 'Media', 'Service', 'Event', 'Product', 'Entertainment', 'Directory', 'Resource', 'Agency', 'Marketplace', 'Government', 'Hospitality', 'Real Estate', 'Health', 'Technology', 'Creative', 'Consulting', 'Travel', 'Subscription', 'Fitness', 'Support', 'Restaurant', 'Online Course', 'Portfolio', 'Gallery', 'Forum', 'Podcast', 'News Portal', 'Digital', 'Platform', 'Review', 'Crowdfunding', 'Survey', 'App' ];
         if (!validWebsiteTypes.includes(websiteType)) {
             errors.websiteType = "Invalid website type. Valid options are: E-commerce, Blog, Portfolio, Corporate," +
                     " Landing.";
