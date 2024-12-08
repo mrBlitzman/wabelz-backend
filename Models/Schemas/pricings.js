@@ -12,8 +12,8 @@ const PricingSchema = new mongoose.Schema({
   },
   price: { type: Number, required: true },
   invoiceTitle: { type: String },
+  title: { type: String, required: true },
   // `package` türü için alanlar
-  title: { type: String, required: function () { return this.type === 'package'; } },
   invoiceTitle: { type: String, required: function () { return this.type === 'package'; } },
   slug: { type: String, required: function () { return this.type === 'package'; }},
   tagline: { type: String, required: function () { return this.type === 'package'; } },

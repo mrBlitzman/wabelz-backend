@@ -1,22 +1,36 @@
 import iso3311a2 from "iso-3166-1-alpha-2";
 import xss from "xss";
+import axios from "axios";
 
-const validateOrder = (orderData) => {
+const validateOrder = async (formData, productData) => {
     const errors = {};
 
+    const postData = async () => {
+        try {
+            const response = await axios.post("http://localhost:3000/api/proceedOrder", productData);
+            return response.data;
+        } catch (error) {
+            console.error("Error occurred:", error.message);
+            errors.product = error.message || "Product Error";
+            return null;
+        }
+    }
+
+    const order = await postData() || "errrrroor";
+
     const cleanedData = {
-        name: xss(orderData.name),
-        email: xss(orderData.email),
-        phone: xss(orderData.phone),
-        country: xss(orderData.country),
-        industry: xss(orderData.industry),
-        websiteType: xss(orderData.websiteType),
-        goal: xss(orderData.goal),
-        description: xss(orderData.description),
-        additionalNote: xss(orderData.additionalNote),
-        terms: orderData.terms,
-        privacy: orderData.privacy,
-        emailList: orderData.emailList
+        name: xss(formData.name),
+        email: xss(formData.email),
+        phone: xss(formData.phone),
+        country: xss(formData.country),
+        industry: xss(formData.industry),
+        websiteType: xss(formData.websiteType),
+        goal: xss(formData.goal),
+        description: xss(formData.description),
+        additionalNote: xss(formData.additionalNote),
+        terms: formData.terms,
+        privacy: formData.privacy,
+        emailList: formData.emailList
     };
 
     // Name ve surname validasyonu
@@ -139,7 +153,7 @@ const validateOrder = (orderData) => {
         errors.emailList = "Email List must be a boolean value.";
     }
 
-    return errors;
+    return {errors, order};
 };
 
 export default validateOrder;

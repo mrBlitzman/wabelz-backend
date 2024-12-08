@@ -14,7 +14,7 @@ export default async function orderDetails(products) {
                 type: productMatch.type,
                 invoiceTitle: productMatch.invoiceTitle || productMatch.title,
                 price: productMatch.price,
-                quantity: product.quantity
+                quantity:  productMatch.type == "package" ? Math.floor(product.quantity) : productMatch.type == "extra" ? 1 : 0
             });
         }
     }

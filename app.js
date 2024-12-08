@@ -4,6 +4,7 @@ import app from './Controllers/index.js';
 import packageRoutes from './Routes/packageRoutes.js';
 import extraRoutes from './Routes/extraRoutes.js';
 import validationRoutes from './Routes/validationRoutes.js';
+import verificationRoutes from './Routes/verificationRoutes.js';
 import cors from 'cors';
 import staticsMw from './Models/Middlewares/statics.js';
 import proceedOrder from './Controllers/proceedOrder.js';
@@ -11,12 +12,13 @@ import proceedOrder from './Controllers/proceedOrder.js';
 staticsMw(app);
 
 app.use(cors({
-  origin: ['https://www.wabelz.com', 'http://localhost:5173']
+  origin: ['https://www.wabelz.com', 'http://localhost:5173', 'http://192.168.1.103:5173']
 }));
 
 app.use("/api", extraRoutes);
 app.use("/api", packageRoutes);
 app.use("/api", validationRoutes);
+app.use("/api", verificationRoutes);
 app.post("/api/proceedOrder", proceedOrder);
 
 app.listen(3000, () => {
