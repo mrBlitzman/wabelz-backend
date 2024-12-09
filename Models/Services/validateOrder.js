@@ -16,7 +16,7 @@ const validateOrder = async (formData, productData) => {
         }
     }
 
-    const order = await postData() || "error";
+    const order = await postData() || null;
 
     const cleanedData = {
         name: xss(formData.name),
@@ -155,7 +155,7 @@ const validateOrder = async (formData, productData) => {
         errors.emailList = "Email List must be a boolean value.";
     }
 
-    return {errors, order};
+    return {errors, order, safeForm: cleanedData};
 };
 
 export default validateOrder;

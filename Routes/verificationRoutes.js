@@ -1,6 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import VerificationCode from "../Models/Schemas/verificationCodes.js";
+import Order from "../Models/Schemas/orders.js";
 import validateOrder from "../Models/Services/validateOrder.js";
 
 const router = express.Router();
@@ -36,7 +37,31 @@ router.post('/verification/:slug', async (req, res) => {
         }
 
         await VerificationCode.deleteOne({ email });
-        return res.status(200).json({ success: true, message: 'verificated' });
+
+        const newOrder = {
+          customer_details: {
+            name_surname: formData.name,
+            mail_addr: formData.email,
+            country: formData.country,
+            phone_num: formData.phone,
+            industry: formData.industry
+          },
+          order_details:{
+            total_price:validateOrderData.order.totalPrice,
+            website: {
+              type: formData.websiteType,
+              prior_goal: formData.goal,
+              short_desc: formData.description,
+              note: formData.additionalNote
+            },
+            products: validateOrderData.order.orderDetails.map(item => ({
+              ...item
+            }))
+          }
+        }
+        const didOrderCreated = await Order.create(newOrder);
+        return didOrderCreated ? res.status(200).json({ success: true, message: 'verificated' }) : res.status(500).json({ success: false, message: "order couldn't created" });
+        
 
         if (res.headersSent) {
             return;
