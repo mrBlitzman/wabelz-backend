@@ -17,7 +17,7 @@ router.get("/extras/:slug", async (req, res) => {
     const filteredExtras = extrasData.filter(
       (extra) =>
         !extra.featureKey ||
-        !packageData.features.some((feature) => feature.name === extra.featureKey)
+        !packageData.features.some((feature) => feature.featureKey === extra.featureKey)
     );
 
     res.json(filteredExtras);
