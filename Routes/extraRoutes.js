@@ -11,7 +11,7 @@ router.get("/extras/:slug", async (req, res) => {
     const extras = await Pricings.find({ type: "extra" });
     const extrasData = extras.map(({ id, type, title, price, featureKey }) => ({ id, type, title, price, featureKey }));
 
-    const packageResponse = await axios.get(`https://wabelzapi.fly.dev/api/packages/${slug}`);
+    const packageResponse = await axios.get(`${process.env.API_ORIGIN}/api/packages/${slug}`);
     const packageData = packageResponse.data;
 
     const filteredExtras = extrasData.filter(

@@ -7,7 +7,7 @@ const validateOrder = async (formData, productData) => {
 
     const postData = async () => {
         try {
-            const response = await axios.post("https://wabelzapi.fly.dev/api/proceedOrder", productData);
+            const response = await axios.post(`${process.env.API_ORIGIN}/api/proceedOrder`, productData);
             return response.data;
         } catch (error) {
             console.error("Error occurred:", error.message);
@@ -16,7 +16,7 @@ const validateOrder = async (formData, productData) => {
         }
     }
 
-    const order = await postData() || "errrrroor";
+    const order = await postData() || "error";
 
     const cleanedData = {
         name: xss(formData.name),
@@ -126,9 +126,11 @@ const validateOrder = async (formData, productData) => {
     const description = cleanedData.description || "";
     if (!description.trim()) {
         errors.description = "Description is required.";
-    } else if (description.length < 10 || description.length > 100) {
-        errors.description = "Description must be between 10 and 100 characters.";
-    }
+    } else if (description.length < 10) {
+        errors.description = "Description must be at least 10 characters.";
+    } else if (description.length > 100) {
+        errors.description = "Description must be no more than 100 characters.";
+    }    
 
     // Additional Note validasyonu
     const additionalNote = cleanedData.additionalNote || "";

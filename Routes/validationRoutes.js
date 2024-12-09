@@ -47,6 +47,10 @@ router.post("/validation/:slug", async (req, res) => {
                 try {
                   const salt = await bcrypt.genSalt(10);
                   const hashedCode = await bcrypt.hash(token, salt);
+
+                  const oldCode = await VerificationCode.findOne({ email: formData.email });
+
+                  !oldCode && await VerificationCode.deleteOne({ email: formData.email });
               
                   const codeDocument = new VerificationCode({
                     code: hashedCode,
