@@ -136,7 +136,7 @@ router.post('/verification/:slug', async (req, res) => {
                                     <p><strong>Quantity:</strong> ${item.quantity}</p>
                                 </div>`;
                             }).join('')}
-                            <p>Total: $${validateOrderData.order.totalPrice}</p>
+                            <p><strong>Total:</strong> $${validateOrderData.order.totalPrice}</p>
                         </div>
                         <div class="footer">
                             <p>Thank you for choosing Wabelz. We look forward to working with you!</p>
@@ -241,6 +241,7 @@ router.post('/verification/:slug', async (req, res) => {
                                       <p><strong>Quantity:</strong> ${item.quantity}</p>
                                   </div>`;
                               }).join('')}
+                              <p><strong>Total:</strong> $${validateOrderData.order.totalPrice}</p>
                           </div>
 
                           <div class="footer">
