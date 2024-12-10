@@ -4,6 +4,7 @@ import VerificationCode from "../Models/Schemas/verificationCodes.js";
 import Order from "../Models/Schemas/orders.js";
 import validateOrder from "../Models/Services/validateOrder.js";
 import nodemailer from "nodemailer";
+const logo = "https://wabelzapi.fly.dev/Assets/Icons/wabelz-logo.png";
 
 const router = express.Router();
 
@@ -64,14 +65,14 @@ router.post('/verification/:slug', async (req, res) => {
         const customerMailOptions = {
           from: process.env.TRANSPORTER_MAIL,
           to: formData.email,
-          subject: "Order Confirmation",
+          subject: "Order Recieved - Wabelz",
           html: `
                 <!DOCTYPE html>
                 <html lang="en">
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Order Received - Wabelz</title>
+                    <title>Order Received</title>
                     <style>
                         body {
                             font-family: Arial, sans-serif;
@@ -140,6 +141,7 @@ router.post('/verification/:slug', async (req, res) => {
                         </div>
                         <div class="footer">
                             <p>Thank you for choosing Wabelz. We look forward to working with you!</p>
+                            <img src="${logo}" alt="Wabelz Logo" style="display: block; margin: 0 auto; max-width: 200px; height: auto; margin-top: 4rem;">
                         </div>
                     </div>
                 </body>
@@ -149,14 +151,14 @@ router.post('/verification/:slug', async (req, res) => {
         const teamMailOptions = {
           from: process.env.TRANSPORTER_MAIL,
           to: "aliravzabarlak@gmail.com",
-          subject: "Order Confirmation",
+          subject: "New Order - Wabelz",
           html: `
                 <!DOCTYPE html>
                   <html lang="en">
                   <head>
                       <meta charset="UTF-8">
                       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                      <title>New Order - Wabelz</title>
+                      <title>New Order</title>
                       <style>
                           body {
                               font-family: Arial, sans-serif;
@@ -246,6 +248,7 @@ router.post('/verification/:slug', async (req, res) => {
 
                           <div class="footer">
                               <p>Thank you for your attention. Please process the order accordingly.</p>
+                              <img src="${logo}" alt="Wabelz Logo" style="display: block; margin: 0 auto; max-width: 200px; height: auto; margin-top: 4rem;">
                           </div>
                       </div>
                   </body>
