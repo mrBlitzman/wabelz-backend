@@ -36,8 +36,8 @@ const validateOrder = async (formData, productData) => {
     // Name ve surname validasyonu
     if (!cleanedData.name || cleanedData.name.trim() === "") {
         errors.name = "Name and Surname cannot be empty.";
-    } else if (cleanedData.name.trim().length < 2 || cleanedData.name.trim().length > 50) {
-        errors.name = "Name and Surname must be between 2 and 50 characters.";
+    } else if (cleanedData.name.trim().length < 3 || cleanedData.name.trim().length > 50) {
+        errors.name = "Name and Surname must be between 3 and 50 characters.";
     } else if (!/^[a-zA-ZçÇşŞıİöÖüÜğĞ]+( [a-zA-ZçÇşŞıİöÖüÜğĞ]+)*$/.test(cleanedData.name.trim())) {
         errors.name = "Name and Surname must contain only letters and spaces.";
     }
@@ -48,7 +48,7 @@ const validateOrder = async (formData, productData) => {
         errors.phone = "Phone number is required.";
     } else if (!phone.startsWith("+")) {
         errors.phone = "Phone number must start with '+'.";
-    } else if (!/^\+([1-9]{1,4})\d{1,14}$/.test(phone)) {
+    } else if (!/^\+([1-9]{1,4})\d{4,14}$/.test(phone)) {
         errors.phone = "Phone number format is invalid. It should include a country code and contain up " +
                 "to 15 digits.";
     }
@@ -118,8 +118,8 @@ const validateOrder = async (formData, productData) => {
         errors.goal = "Goal is required.";
     } else if (goal.length < 5 || goal.length > 50) {
         errors.goal = "Goal must be between 5 and 50 characters.";
-    } else if (!/^[a-zA-Z\s.,!?]+$/.test(goal)) {
-        errors.goal = "Goal must contain only letters, spaces, and basic punctuation (.,!?).";
+    } else if (!/^[a-zA-ZçÇşŞıİöÖüÜğĞ.,?!'";:()\-]+( [a-zA-ZçÇşŞıİöÖüÜğĞ.,?!'";:()\-]+)*$/.test(goal)) {
+        errors.goal = "Goal must contain only letters, spaces, and basic punctuation.";
     }
 
     // Description validasyonu
@@ -130,7 +130,9 @@ const validateOrder = async (formData, productData) => {
         errors.description = "Description must be at least 10 characters.";
     } else if (description.length > 100) {
         errors.description = "Description must be no more than 100 characters.";
-    }    
+    } else if (!/^[a-zA-ZçÇşŞıİöÖüÜğĞ.,?!'";:()\-]+( [a-zA-ZçÇşŞıİöÖüÜğĞ.,?!'";:()\-]+)*$/.test(goal)) {
+        errors.description = "Description must contain only letters, spaces, and basic punctuation.";
+    }
 
     // Additional Note validasyonu
     const additionalNote = cleanedData.additionalNote || "";
