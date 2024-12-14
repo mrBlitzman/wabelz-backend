@@ -3,6 +3,7 @@ import xss from "xss";
 import axios from "axios";
 
 const validateOrder = async (formData, productData) => {
+
     const errors = {};
 
     const postData = async () => {
