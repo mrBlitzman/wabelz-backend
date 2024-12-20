@@ -9,12 +9,15 @@ export default async function orderDetails(products) {
         const productMatch = await Pricings.findOne({ id: product.id });
         if (productMatch) {
             didMatch = true;
-            orderList.push({
+            Math.floor(+product.quantity) >= 1 && orderList.push({
                 id: productMatch.id,
                 type: productMatch.type,
                 invoiceTitle: productMatch.invoiceTitle || productMatch.title,
                 price: productMatch.price,
-                quantity:  productMatch.type == "package" ? Math.floor(product.quantity) : productMatch.type == "extra" ? 1 : 0
+                quantity: productMatch.type === "package" || productMatch.type === "quantity" || productMatch.type === "element"
+                ? Math.floor(+product.quantity)
+                : productMatch.type === "extra"
+                ? 1 : 0
             });
         }
     }

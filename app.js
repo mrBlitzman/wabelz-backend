@@ -1,8 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import app from './Controllers/index.js';
-import packageRoutes from './Routes/packageRoutes.js';
-import extraRoutes from './Routes/extraRoutes.js';
+import infoRoutes from './Routes/infoRoutes.js';
 import validationRoutes from './Routes/validationRoutes.js';
 import verificationRoutes from './Routes/verificationRoutes.js';
 import cors from 'cors';
@@ -15,10 +14,9 @@ app.use(cors({
   origin: ['https://www.wabelz.com', 'http://localhost:5173', 'http://192.168.1.103:5173']
 }));
 
-app.use("/api", extraRoutes);
-app.use("/api", packageRoutes);
 app.use("/api", validationRoutes);
 app.use("/api", verificationRoutes);
+app.use("/api", infoRoutes);
 app.post("/api/proceedOrder", proceedOrder);
 
 app.listen(3000, () => {
