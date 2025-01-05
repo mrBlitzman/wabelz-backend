@@ -9,16 +9,26 @@ export default async function orderDetails(products) {
         const productMatch = await Pricings.findOne({ id: product.id });
         if (productMatch) {
             didMatch = true;
-            Math.floor(+product.quantity) >= 1 && orderList.push({
-                id: productMatch.id,
-                type: productMatch.type,
-                invoiceTitle: productMatch.invoiceTitle || productMatch.title,
-                price: productMatch.price,
-                quantity: productMatch.type === "package" || productMatch.type === "quantity" || productMatch.type === "element"
-                ? Math.floor(+product.quantity)
-                : productMatch.type === "extra"
-                ? 1 : 0
-            });
+            if (Math.floor(+product.quantity) >= 1 || productMatch.type === "extra") {
+                let quantity;
+            
+                if (productMatch.type === "package" || productMatch.type === "quantity" || productMatch.type === "element") {
+                    quantity = Math.floor(+product.quantity);
+                } else if (productMatch.type === "extra") {
+                    quantity = 1;
+                } else {
+                    quantity = 0;
+                }
+            
+                orderList.push({
+                    id: productMatch.id,
+                    type: productMatch.type,
+                    invoiceTitle: productMatch.invoiceTitle || productMatch.title,
+                    price: productMatch.price,
+                    quantity: quantity
+                });
+            }
+            
         }
     }
 

@@ -15,7 +15,6 @@ router.post('/verification/:slug', async (req, res) => {
       const { email, code } = req.body;
       const formData = req.body.form;
       const productData = req.body.products;
-
       try {
         const validateOrderData = await validateOrder(formData, productData);
         const errors = validateOrderData.errors;

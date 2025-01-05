@@ -10,6 +10,10 @@ const orderSchema = new Schema({
     industry: { type: String, required: true },
   },
   order_details: {
+    order_date: {type: Date, required: true, default: Date.now},
+    amount_paid: { type: Number, required: true, default: 0 },
+    payment_status: { type: String, required: true, default: "pending" },
+    delivery_status: { type: String, required: true, default: "pending" },
     total_price: { type: Number, required: true },
     website: {
       type: { type: String, required: true },

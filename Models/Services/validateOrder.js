@@ -18,7 +18,6 @@ const validateOrder = async (formData, productData) => {
     }
 
     const order = await postData() || null;
-
     const cleanedData = {
         name: xss(formData.name),
         email: xss(formData.email),

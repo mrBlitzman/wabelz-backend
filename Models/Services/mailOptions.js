@@ -23,9 +23,11 @@ const confirmationCodeOptions = (formData, validateOrderData, token) => {
                   box-sizing: border-box;
                 }
                 .container {
-                  width: 100%;
+                  width: max-content;
+                  padding: 3rem;
+                  margin: 0 auto;
                   background-color: #1b2b4d;
-                  border-radius: 8px;
+                  border-radius: 16px;
                 }
                 .container .content {
                   padding: 20px;
@@ -187,11 +189,13 @@ const orderDetailsOptions = (formData, validateOrderData) => {
                       box-sizing: border-box;
                     }
 
-                      .container {
-                        width: 100%;
-                        background-color: #1b2b4d;
-                        border-radius: 8px;
-                      }
+                    .container {
+                      width: max-content;
+                      padding: 3rem;
+                      margin: 0 auto;
+                      background-color: #1b2b4d;
+                      border-radius: 16px;
+                    }
                       .container .content {
                         padding: 20px;
                         max-width: 600px;
@@ -324,10 +328,13 @@ const newOrderRecievedOptions = (validateOrderData) => {
                     }
 
                     .container {
-                        width: 100%;
-                        background-color: #1b2b4d;
-                        border-radius: 8px;
-                      }
+                      width: max-content;
+                      padding: 3rem;
+                      margin: 0 auto;
+                      background-color: #1b2b4d;
+                      border-radius: 16px;
+                    }
+                      
                       .container .content {
                         padding: 20px;
                         max-width: 600px;
