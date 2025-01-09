@@ -11,7 +11,7 @@ const router = express.Router();
 const verifyLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 5,
-  message: "Too much requests. Try again later."
+  message: {process: "too_much_requests", message: "Too much requests. Try again later."}
 });
 
 router.post('/verification/:slug', verifyLimiter, async (req, res) => {

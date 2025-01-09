@@ -4,6 +4,8 @@ import app from './Controllers/index.js';
 import infoRoutes from './Routes/infoRoutes.js';
 import validationRoutes from './Routes/validationRoutes.js';
 import verificationRoutes from './Routes/verificationRoutes.js';
+import authRoutes from './Routes/authRoutes.js';
+import adminRoutes from './Routes/adminRoutes.js';
 import cors from 'cors';
 import staticsMw from './Models/Middlewares/statics.js';
 import proceedOrder from './Controllers/proceedOrder.js';
@@ -17,6 +19,8 @@ app.use(cors({
 app.use("/api", validationRoutes);
 app.use("/api", verificationRoutes);
 app.use("/api", infoRoutes);
+app.use("/api", authRoutes);
+app.use("/api", adminRoutes);
 app.post("/api/proceedOrder", proceedOrder);
 
 app.listen(3000, () => {
