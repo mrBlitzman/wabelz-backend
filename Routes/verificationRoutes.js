@@ -4,10 +4,17 @@ import VerificationCode from "../Models/Schemas/verificationCodes.js";
 import Order from "../Models/Schemas/orders.js";
 import validateOrder from "../Models/Services/validateOrder.js";
 import mailer from "../Models/Services/mailer.js";
-
+import rateLimit from "express-rate-limit";
+import axios from "axios";
 const router = express.Router();
 
-router.post('/verification/:slug', async (req, res) => {
+const verifyLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 5,
+  message: "Too much requests. Try again later."
+});
+
+router.post('/verification/:slug', verifyLimiter, async (req, res) => {
   const slug = req.params.slug;
 
   switch(slug) {
@@ -73,6 +80,7 @@ router.post('/verification/:slug', async (req, res) => {
       } catch (err) {
         return res.status(500).json({ message: 'server_error', error: err.message });
       }
+
   }
 });
 
