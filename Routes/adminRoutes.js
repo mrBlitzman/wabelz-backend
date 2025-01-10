@@ -4,6 +4,7 @@ import EmailListAdmins from "../Models/Schemas/emailListAdmins.js";
 import nodemailer from "nodemailer";
 import bcrypt from 'bcrypt';
 import rateLimit from "express-rate-limit";
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -50,22 +51,37 @@ router.post('/admin/:slug', adminLimiter, async (req, res) => {
                         pass: process.env.TRANSPORTER_PASSWORD
                     }
                 });
-            
-                const sendPromises = emails.map((email) =>
-                    transporter.sendMail({
-                    from: process.env.TRANSPORTER_MAIL,
-                    to: email.email,
-                    subject,
-                    html: htmlMessage,
-                    })
-                );
+
+                
+
+                const sendPromises = emails.map((email) => {
+                    const unsubscribeToken = jwt.sign(
+                        { email: email.email }, 
+                        process.env.JWT_SECRET, 
+                        { expiresIn: '7d' }
+                    );
+                
+                    const unsubscribeLink = `${process.env.API_ORIGIN}/api/auth/delistEmail?email=${email.email}&token=${unsubscribeToken}`;
+                    const personalizedMessage = htmlMessage.replace("{{unsubscribeLink}}", unsubscribeLink);
+                
+                    return transporter.sendMail({
+                        from: process.env.TRANSPORTER_MAIL,
+                        to: email.email,
+                        subject,
+                        html: personalizedMessage,
+                    });
+                });
+                
                 await Promise.all(sendPromises);
+                
             
                 res.status(200).json({ message: 'Emails sent successfully.' });
             } catch (error) {
                 console.error('Error sending emails:', error);
                 res.status(500).json({ message: 'An error occurred while sending emails.' });
             }
+
+        break;
     }
 });
   

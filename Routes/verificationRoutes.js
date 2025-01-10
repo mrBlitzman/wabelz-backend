@@ -6,6 +6,7 @@ import validateOrder from "../Models/Services/validateOrder.js";
 import mailer from "../Models/Services/mailer.js";
 import rateLimit from "express-rate-limit";
 import axios from "axios";
+
 const router = express.Router();
 
 const verifyLimiter = rateLimit({
@@ -47,25 +48,35 @@ router.post('/verification/:slug', verifyLimiter, async (req, res) => {
 
         const newOrder = {
           customer_details: {
-            name_surname: formData.name,
-            mail_addr: formData.email,
-            country: formData.country,
-            phone_num: formData.phone,
-            industry: formData.industry
+            name_surname: validateOrderData.safeForm.name,
+            mail_addr: validateOrderData.safeForm.email,
+            country: validateOrderData.safeForm.country,
+            phone_num: validateOrderData.safeForm.phone,
+            industry: validateOrderData.safeForm.industry
           },
           order_details:{
             total_price:validateOrderData.order.totalPrice,
             website: {
-              type: formData.websiteType,
-              prior_goal: formData.goal,
-              short_desc: formData.description,
-              note: formData.additionalNote
+              type: validateOrderData.safeForm.websiteType,
+              prior_goal: validateOrderData.safeForm.goal,
+              short_desc: validateOrderData.safeForm.description,
+              note: validateOrderData.safeForm.additionalNote
             },
             products: validateOrderData.order.orderDetails.map(item => ({
               ...item
             }))
           }
         }
+
+        if (formData.emailList === true) {  
+          const emailToRegister = formData.email;
+          try {
+              await axios.post(`${process.env.API_ORIGIN}/api/auth/registerEmail`, { email: emailToRegister });
+          } catch (error) {
+          }
+        }
+      
+
         const createdOrder = await Order.create(newOrder);
 
         const orderDetailsMail = await mailer("orderDetails", {validateOrderData, formData}, res);
@@ -80,6 +91,8 @@ router.post('/verification/:slug', verifyLimiter, async (req, res) => {
       } catch (err) {
         return res.status(500).json({ message: 'server_error', error: err.message });
       }
+    
+      break;
 
   }
 });

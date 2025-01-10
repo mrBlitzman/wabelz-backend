@@ -37,6 +37,8 @@ router.post("/validation/:slug", async (req, res) => {
             const email = formData.email;
 
             await mailer("confirmationCode", { validateOrderData, formData, token }, res, storeConfirmationCode, { token, email });
+
+        break;
     }
 });
 
