@@ -51,13 +51,17 @@ router.get("/info/extras/:slug", async (req, res) => {
       featureKey,
     }));
 
-    const packageResponse = await axios.get(`${process.env.API_ORIGIN}/api/info/packages/${slug}`);
+    const packageResponse = await axios.get(
+      `${process.env.API_ORIGIN}/api/info/packages/${slug}`
+    );
     const packageData = packageResponse.data;
 
     const filteredExtras = extrasData.filter(
       (extra) =>
         !extra.featureKey ||
-        !packageData.features.some((feature) => feature.featureKey === extra.featureKey)
+        !packageData.features.some(
+          (feature) => feature.featureKey === extra.featureKey
+        )
     );
 
     res.json(filteredExtras);
@@ -72,21 +76,33 @@ router.get("/info/packages", async (req, res) => {
     const allPackages = await Pricings.find({ type: "package" });
     res.json(allPackages);
   } catch (err) {
-    res.status(500).json({ definition: "Packages fetching error", message: err.message });
+    res
+      .status(500)
+      .json({ definition: "Packages fetching error", message: err.message });
   }
 });
 
 router.get("/info/packages/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
-    const foundPackage = await Pricings.findOne({ type: "package", slug: slug });
+    const foundPackage = await Pricings.findOne({
+      type: "package",
+      slug: slug,
+    });
     if (!foundPackage) {
-      return res.status(404).json({ definition: "Package not found", message: "No package found with the given slug." });
+      return res
+        .status(404)
+        .json({
+          definition: "Package not found",
+          message: "No package found with the given slug.",
+        });
     }
 
     res.json(foundPackage);
   } catch (err) {
-    res.status(500).json({ definition: "Package fetching error", message: err.message });
+    res
+      .status(500)
+      .json({ definition: "Package fetching error", message: err.message });
   }
 });
 

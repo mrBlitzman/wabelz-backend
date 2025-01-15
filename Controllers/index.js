@@ -1,6 +1,6 @@
-import express from 'express';
+import express from "express";
 const app = express();
-import dbConnection from '../Models/Services/db.js';
+import dbConnection from "../Models/Services/db.js";
 
 app.use(express.json());
 dbConnection();

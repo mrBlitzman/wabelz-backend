@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const emailListSchema = new mongoose.Schema({
   email: {
@@ -20,6 +20,6 @@ const emailListSchema = new mongoose.Schema({
   },
 });
 
-const EmailList = mongoose.model('emailList', emailListSchema);
+const EmailList = mongoose.model("emailList", emailListSchema);
 
 export default EmailList;

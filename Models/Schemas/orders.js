@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
@@ -10,7 +10,7 @@ const orderSchema = new Schema({
     industry: { type: String, required: true },
   },
   order_details: {
-    order_date: {type: Date, required: true, default: Date.now},
+    order_date: { type: Date, required: true, default: Date.now },
     amount_paid: { type: Number, required: true, default: 0 },
     payment_status: { type: String, required: true, default: "pending" },
     delivery_status: { type: String, required: true, default: "pending" },
@@ -21,12 +21,10 @@ const orderSchema = new Schema({
       short_desc: { type: String, required: true },
       note: { type: String, required: false },
     },
-    products: [
-      { type: Object }
-    ]
+    products: [{ type: Object }],
   },
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 
 export default Order;

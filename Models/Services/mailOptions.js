@@ -1,12 +1,11 @@
 const logo = "https://wabelzapi.fly.dev/Assets/Icons/wabelz-logo.png";
 
 const confirmationCodeOptions = (formData, validateOrderData, token) => {
-
-    return {
-        from: process.env.TRANSPORTER_MAIL,
-        to: formData.email,
-        subject: "Order Confirmation",
-        html: `
+  return {
+    from: process.env.TRANSPORTER_MAIL,
+    to: formData.email,
+    subject: "Order Confirmation",
+    html: `
           <!DOCTYPE html>
           <html lang="en">
             <head>
@@ -138,11 +137,13 @@ const confirmationCodeOptions = (formData, validateOrderData, token) => {
                           </tr>
                         `
                           )
-                          .join('')}
+                          .join("")}
                       </tbody>
                     </table>
                   </div>
-                  <p class="total">Total: $${validateOrderData.order.totalPrice}</p>
+                  <p class="total">Total: $${
+                    validateOrderData.order.totalPrice
+                  }</p>
                   <div class="footer">
                     <p>
                       Thank you for choosing Wabelz. We hope you enjoy your purchase!
@@ -162,17 +163,16 @@ const confirmationCodeOptions = (formData, validateOrderData, token) => {
               </div>
             </body>
           </html>
-        `
-      };
-
-}
+        `,
+  };
+};
 
 const orderDetailsOptions = (formData, validateOrderData) => {
-    return {
-        from: process.env.TRANSPORTER_MAIL,
-        to: formData.email,
-        subject: "Order Recieved - Wabelz",
-        html: `
+  return {
+    from: process.env.TRANSPORTER_MAIL,
+    to: formData.email,
+    subject: "Order Recieved - Wabelz",
+    html: `
               <!DOCTYPE html>
               <html lang="en">
                 <head>
@@ -281,11 +281,13 @@ const orderDetailsOptions = (formData, validateOrderData) => {
                                   </tr>
                                 `
                                   )
-                                  .join('')}
+                                  .join("")}
                               </tbody>
                             </table>
                       </div>
-                      <p class="total">Total: $${validateOrderData.order.totalPrice}</p>
+                      <p class="total">Total: $${
+                        validateOrderData.order.totalPrice
+                      }</p>
                       <div class="footer">
                         <p>Thank you for choosing Wabelz. We look forward to working with you!</p>
                         <img src="${logo}" alt="Wabelz Logo"
@@ -301,16 +303,17 @@ const orderDetailsOptions = (formData, validateOrderData) => {
                 </body>
               </html>
 
-              `};
-}
+              `,
+  };
+};
 
 const newOrderRecievedOptions = (validateOrderData) => {
-    const recipients = process.env.TEAM_MAILS.split(',');
-    return {
-        from: process.env.TRANSPORTER_MAIL,
-        to: recipients.map(email => email.trim()).join(','),
-        subject: "New Order - Wabelz",
-        html: `
+  const recipients = process.env.TEAM_MAILS.split(",");
+  return {
+    from: process.env.TRANSPORTER_MAIL,
+    to: recipients.map((email) => email.trim()).join(","),
+    subject: "New Order - Wabelz",
+    html: `
               <!DOCTYPE html>
               <html lang="en">
                 <head>
@@ -404,33 +407,50 @@ const newOrderRecievedOptions = (validateOrderData) => {
                       <div class="customer-info">
                         <p class="section-title">Customer Information:</p>
                         <p>
-                          <strong>Name:</strong> ${validateOrderData.safeForm.name}
+                          <strong>Name:</strong> ${
+                            validateOrderData.safeForm.name
+                          }
                         </p>
                         <p>
-                          <strong>Email:</strong> ${validateOrderData.safeForm.email}
+                          <strong>Email:</strong> ${
+                            validateOrderData.safeForm.email
+                          }
                         </p>
                         <p>
-                          <strong>Phone:</strong> ${validateOrderData.safeForm.phone}
+                          <strong>Phone:</strong> ${
+                            validateOrderData.safeForm.phone
+                          }
                         </p>
                         <p>
-                          <strong>Country:</strong> ${validateOrderData.safeForm.country}
+                          <strong>Country:</strong> ${
+                            validateOrderData.safeForm.country
+                          }
                         </p>
                         <p>
-                          <strong>Industry:</strong> ${validateOrderData.safeForm.industry}
+                          <strong>Industry:</strong> ${
+                            validateOrderData.safeForm.industry
+                          }
                         </p>
                       </div>
                       <div class="order-details">
                         <p class="section-title">Order Information:</p>
                         <p>
-                          <strong>Website Type:</strong> ${validateOrderData.safeForm.websiteType}
+                          <strong>Website Type:</strong> ${
+                            validateOrderData.safeForm.websiteType
+                          }
                         </p>
                         <p>
-                          <strong>Goal:</strong> ${validateOrderData.safeForm.goal}
+                          <strong>Goal:</strong> ${
+                            validateOrderData.safeForm.goal
+                          }
                         </p>
                         <p>
-                          <strong>Description:</strong> ${validateOrderData.safeForm.description}
+                          <strong>Description:</strong> ${
+                            validateOrderData.safeForm.description
+                          }
                         </p>
-                        ${validateOrderData.safeForm.additionalNote &&
+                        ${
+                          validateOrderData.safeForm.additionalNote &&
                           `<p>
                             <strong>Additional Notes:</strong> ${validateOrderData.safeForm.additionalNote}
                           </p>`
@@ -459,11 +479,13 @@ const newOrderRecievedOptions = (validateOrderData) => {
                                 </tr>
                               `
                                 )
-                                .join('')}
+                                .join("")}
                             </tbody>
                         </table>
                       </div>
-                      <p class="total">Total: $${validateOrderData.order.totalPrice}</p>
+                      <p class="total">Total: $${
+                        validateOrderData.order.totalPrice
+                      }</p>
                       <div class="footer">
                         <p>Thank you for your attention. Please process the order accordingly.</p>
                         <img src="${logo}" alt="Wabelz Logo"
@@ -479,16 +501,20 @@ const newOrderRecievedOptions = (validateOrderData) => {
                   </div>
                 </body>
               </html>
-              `};
-}
+              `,
+  };
+};
 
-export default function returnMailOptions(mailType, {validateOrderData, formData = "", token}) {
-    switch(mailType){
-        case "confirmationCode":
-            return confirmationCodeOptions(formData, validateOrderData, token);
-        case "orderDetails":
-            return orderDetailsOptions(formData, validateOrderData);
-        case "newOrderRecieved":
-            return newOrderRecievedOptions(validateOrderData);
-    }
+export default function returnMailOptions(
+  mailType,
+  { validateOrderData, formData = "", token }
+) {
+  switch (mailType) {
+    case "confirmationCode":
+      return confirmationCodeOptions(formData, validateOrderData, token);
+    case "orderDetails":
+      return orderDetailsOptions(formData, validateOrderData);
+    case "newOrderRecieved":
+      return newOrderRecievedOptions(validateOrderData);
+  }
 }
