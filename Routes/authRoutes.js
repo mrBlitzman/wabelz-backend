@@ -16,7 +16,6 @@ router.post("/auth/:slug", authLimiter, async (req, res) => {
 
   switch (slug) {
     case "registerEmail":
-      console.log("API Endpoint Reached: /auth/registerEmail");
       const { email } = req.body;
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -27,9 +26,7 @@ router.post("/auth/:slug", authLimiter, async (req, res) => {
       }
 
       try {
-        console.time("Database Operation");
         const existingEmail = await EmailList.findOne({ email });
-        console.timeEnd("Database Operation");
 
         if (existingEmail) {
           if (existingEmail.delisted) {
