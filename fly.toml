@@ -20,8 +20,3 @@ primary_region = 'otp'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-
-[[services]]
-http_checks = [
-  { path = "/api/info/items", interval = "10s", timeout = "2s" }
-]
