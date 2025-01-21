@@ -23,5 +23,5 @@ primary_region = 'otp'
 
 [[services]]
 http_checks = [
-  { path = "/", interval = "10s", timeout = "2s" }
+  { path = "/api/info/items", interval = "10s", timeout = "2s" }
 ]
