@@ -22,11 +22,9 @@ router.post("/admin/:slug", adminLimiter, async (req, res) => {
       const { username, password, subject, htmlMessage } = req.body;
 
       if (!username || !password || !subject || !htmlMessage) {
-        return res
-          .status(400)
-          .json({
-            message: "Username, password, subject, and message are required.",
-          });
+        return res.status(400).json({
+          message: "Username, password, subject, and message are required.",
+        });
       }
 
       try {
@@ -52,7 +50,9 @@ router.post("/admin/:slug", adminLimiter, async (req, res) => {
         }
 
         const transporter = nodemailer.createTransport({
-          service: "gmail",
+          host: "mail.spacemail.com",
+          port: 465,
+          secure: true,
           auth: {
             user: process.env.TRANSPORTER_MAIL,
             pass: process.env.TRANSPORTER_PASSWORD,

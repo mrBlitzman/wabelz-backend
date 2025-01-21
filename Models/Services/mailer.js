@@ -10,7 +10,9 @@ export default function mailer(
 ) {
   return new Promise((resolve, reject) => {
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "mail.spacemail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.TRANSPORTER_MAIL,
         pass: process.env.TRANSPORTER_PASSWORD,
